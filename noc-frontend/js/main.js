@@ -46,7 +46,6 @@ async function loadDevicesFromAPI() {
 async function loadLinksFromAPI() {
   try {
     const links = await api.links.list();
-    console.log('Links recebidos da API:', links); // ← adiciona essa linha
     links.forEach(l => {
       // Encontra os nodes correspondentes pelos backendId
       const srcNode = Object.values(state.nodes).find(n => n.backendId === l.src_id);
