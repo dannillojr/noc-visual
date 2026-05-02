@@ -1,0 +1,125 @@
+/* ════════════════════════════════════════
+   login.css
+   Estilos exclusivos da tela de login
+   ════════════════════════════════════════ */
+
+body {
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Caixa central de login */
+.login-box {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+/* Logo e subtítulo */
+.login-logo {
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #58a6ff;
+  margin-bottom: 6px;
+}
+
+.login-logo i {
+  margin-right: 8px;
+}
+
+.login-sub {
+  text-align: center;
+  color: #484f58;
+  font-size: 0.85rem;
+  margin-bottom: 32px;
+}
+
+/* Campos do formulário */
+.frow {
+  margin-bottom: 18px;
+}
+
+.frow label {
+  display: block;
+  font-size: 0.82rem;
+  color: #8b949e;
+  margin-bottom: 6px;
+}
+
+.frow input {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #e6edf3;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.frow input:focus {
+  outline: none;
+  border-color: #58a6ff;
+}
+
+/* Botão de login */
+.btn-login {
+  width: 100%;
+  background: #1f6feb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 11px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.2s;
+}
+
+.btn-login:hover {
+  background: #388bfd;
+}
+
+.btn-login:disabled {
+  background: #21262d;
+  color: #484f58;
+  cursor: not-allowed;
+}
+
+/* Mensagem de erro */
+.erro-msg {
+  display: none;
+  background: #2d1215;
+  border: 1px solid #f8514966;
+  border-radius: 6px;
+  color: #f85149;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.erro-msg.visivel {
+  display: block;
+}
+
+/* Rodapé */
+.login-footer {
+  text-align: center;
+  margin-top: 28px;
+  color: #484f58;
+  font-size: 0.78rem;
+}

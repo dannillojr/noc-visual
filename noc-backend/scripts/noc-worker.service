@@ -1,0 +1,19 @@
+[Unit]
+Description=NOC Visual — Worker de Ping
+After=network.target postgresql.service noc-api.service
+
+[Service]
+Type=simple
+# Worker precisa de permissão para ICMP raw socket
+User=root
+WorkingDirectory=/opt/noc-backend
+ExecStart=/opt/noc-backend/venv/bin/python -m worker.main
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+EnvironmentFile=/opt/noc-backend/.env
+
+[Install]
+WantedBy=multi-user.target

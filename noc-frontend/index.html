@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>NOC Visual — Monitoramento de Rede</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/map.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+
+  <!-- ══ TOPBAR ══ -->
+  <div id="topbar">
+    <div class="logo"><i class="fa fa-network-wired"></i> NOC Visual</div>
+    <div class="tb-stat ok"><i class="fa fa-circle dot-sm"></i> Online <span class="val" id="t-on">0</span></div>
+    <div class="tb-stat err"><i class="fa fa-circle dot-sm" style="color:#f85149"></i> Offline <span class="val"
+        id="t-off">0</span></div>
+    <div class="tb-stat warn"><i class="fa fa-circle dot-sm" style="color:#d29922"></i> Instável <span class="val"
+        id="t-warn">0</span></div>
+    <div class="tb-stat info"><i class="fa fa-route" style="color:#58a6ff"></i> Enlaces <span class="val"
+        id="t-links">0</span></div>
+    <div class="spacer"></div>
+    <div id="clock"></div>
+    <button class="btn-tb active" id="btn-monitor"><i class="fa fa-satellite-dish"></i> Monitoramento</button>
+    <button class="btn-tb" id="btn-sim"><i class="fa fa-bolt"></i> Simular Falha</button>
+    <button class="btn-tb" id="btn-restore" style="display:none"><i class="fa fa-undo"></i> Restaurar</button>
+    <button class="btn-tb" id="btn-export"><i class="fa fa-download"></i> Exportar</button>
+    <button class="btn-tb" id="btn-import"><i class="fa fa-upload"></i> Importar</button>
+    <input type="file" id="file-import" accept=".json" style="display:none" />
+
+    <!-- Botão logout — chama auth.fazerLogout() que limpa o token e redireciona -->
+    <button class="btn-tb btn-logout" id="btn-logout">
+      <i class="fa fa-sign-out-alt"></i> Sair
+    </button>
+  <!-- ══ MAIN ══ -->
+  <div id="main">
+
+    <!-- LEFT -->
+    <div id="left">
+      <div class="phdr"><span><i class="fa fa-tools"></i> Ferramentas</span></div>
+      <div id="toolbox">
+        <div class="tool-grid">
+          <div class="tbtn t-sel active" data-tool="select"><i class="fa fa-mouse-pointer"></i>Selecionar</div>
+          <div class="tbtn t-pop" data-tool="pop"><i class="fa fa-building"></i>POP</div>
+          <div class="tbtn t-rb" data-tool="radio"><i class="fa fa-server"></i>RB/OLT</div>
+          <div class="tbtn t-srv" data-tool="server"><i class="fa fa-hdd"></i>Servidor</div>
+          <div class="tbtn t-corp" data-tool="corporate"><i class="fa fa-briefcase"></i>Corporativo</div>
+          <div class="tbtn t-link" data-tool="link"><i class="fa fa-project-diagram"></i>Enlace</div>
+        </div>
+      </div>
+
+      <div id="searchbox">
+        <input type="text" id="search-input" placeholder="🔍 Buscar no mapa..." autocomplete="off" />
+        <div id="search-results"></div>
+      </div>
+
+      <div class="phdr"><span><i class="fa fa-list"></i> Elementos <span id="elem-count"
+            style="color:#58a6ff"></span></span></div>
+      <div id="elemlist"></div>
+    </div>
+
+    <!-- MAP -->
+    <div id="mapwrap">
+      <div id="map"></div>
+      <div id="maptb">
+        <button class="mbt" id="tl-rua"><i class="fa fa-road"></i> Rua</button>
+        <button class="mbt" id="tl-sat"><i class="fa fa-satellite"></i> Satélite</button>
+        <button class="mbt active" id="tl-dark"><i class="fa fa-moon"></i> Dark</button>
+        <button class="mbt" id="tl-fit"><i class="fa fa-compress-arrows-alt"></i> Ajustar</button>
+      </div>
+      <div id="statusbar">🖱️ Clique num elemento para selecionar</div>
+      <div id="linking-info"><i class="fa fa-link"></i> Clique no destino do enlace</div>
+
+      <div id="breakpanel">
+        <span class="bp-close-btn" id="bp-close"><i class="fa fa-times"></i></span>
+        <h3><i class="fa fa-exclamation-triangle"></i> ROMPIMENTO DETECTADO</h3>
+        <div class="bp-row"><span class="bk">Enlace:</span><span class="bv" id="bp-link">—</span></div>
+        <div class="bp-row"><span class="bk">Distância da origem:</span><span class="bv" id="bp-dist">—</span></div>
+        <div class="bp-row"><span class="bk">Nível óptico:</span><span class="bv" id="bp-opt">—</span></div>
+        <div class="bp-row"><span class="bk">Hora:</span><span class="bv" id="bp-time">—</span></div>
+      </div>
+
+      <div id="legend">
+        <div class="lrow">
+          <div class="ldot" style="background:#3fb950"></div> Online
+        </div>
+        <div class="lrow">
+          <div class="ldot" style="background:#f85149"></div> Offline
+        </div>
+        <div class="lrow">
+          <div class="ldot" style="background:#d29922"></div> Instável
+        </div>
+        <div class="lrow">
+          <div class="lline" style="background:#3fb950"></div> Enlace OK
+        </div>
+        <div class="lrow">
+          <div class="lline" style="background:#f85149;opacity:.7"></div> Enlace Falho
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div id="right">
+      <div class="phdr"><span><i class="fa fa-bell"></i> Alertas <span class="abadge" id="alert-count">0</span></span>
+      </div>
+      <div id="alertlist"></div>
+
+      <div id="stats-grid">
+        <div class="scard">
+          <div class="sval g" id="s-up">0</div>
+          <div class="slbl">Online</div>
+        </div>
+        <div class="scard">
+          <div class="sval r" id="s-down">0</div>
+          <div class="slbl">Offline</div>
+        </div>
+        <div class="scard">
+          <div class="sval y" id="s-warn">0</div>
+          <div class="slbl">Instável</div>
+        </div>
+        <div class="scard">
+          <div class="sval b" id="s-links">0</div>
+          <div class="slbl">Enlaces</div>
+        </div>
+      </div>
+
+      <div id="detpanel">
+        <div id="det-content"></div>
+        <div class="act-btns">
+          <button class="act-btn blue" id="det-edit"><i class="fa fa-edit"></i> Editar</button>
+          <button class="act-btn red" id="det-delete"><i class="fa fa-trash"></i> Remover</button>
+        </div>
+      </div>
+
+      <div id="chartarea">
+        <div class="chart-lbl"><i class="fa fa-chart-line"></i> Latência (ms)</div>
+        <canvas id="latChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: CADASTRO / EDIÇÃO ══ -->
+  <div class="modal" id="modal-add">
+    <div class="mbox">
+      <div class="mbox-hdr">
+        <h2 id="modal-add-title"><i class="fa fa-plus-circle"></i> Adicionar Dispositivo</h2>
+      </div>
+
+      <div style="padding:14px 20px;overflow-y:auto;max-height:60vh;">
+
+        <div class="frow">
+          <label>Nome *</label>
+          <input type="text" id="f-name" placeholder="Ex: POP Centro, OLT Cidade A, Hospital Municipal..." />
+        </div>
+
+        <div class="frow-2">
+          <div class="frow">
+            <label>Endereço IP *</label>
+            <input type="text" id="f-ip" placeholder="192.168.0.1" />
+            <div class="field-hint">IP acessível pelo servidor de monitoramento</div>
+          </div>
+          <div class="frow">
+            <label>Tipo *</label>
+            <select id="f-type">
+              <option value="pop">POP</option>
+              <option value="radio">RB / OLT / Rádio</option>
+              <option value="server">Servidor</option>
+              <option value="corporate">Cliente Corporativo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="frow">
+          <label>Prioridade</label>
+          <select id="f-priority">
+            <option value="1">1 — Crítico (hospital, backbone)</option>
+            <option value="2">2 — Alto (POP principal, OLT)</option>
+            <option value="5" selected>5 — Médio (padrão)</option>
+            <option value="7">7 — Baixo</option>
+            <option value="10">10 — Muito baixo</option>
+          </select>
+        </div>
+
+        <div class="frow">
+          <label>Localização / Endereço</label>
+          <input type="text" id="f-location" placeholder="Ex: Rua X, nº 100, Centro — Cidade A" />
+        </div>
+
+        <div class="frow">
+          <label>Observações</label>
+          <textarea id="f-desc" placeholder="Modelo do equipamento, contrato, responsável técnico..."></textarea>
+        </div>
+
+        <div class="field-hint"
+          style="background:#1c2433;border:1px solid #30363d;border-radius:6px;padding:8px 10px;margin-top:4px;">
+          <i class="fa fa-map-marker-alt" style="color:#58a6ff"></i>
+          Posição: <span id="coord-display" style="color:#e6edf3">—</span>
+          <div style="margin-top:4px;color:#484f58">Clique primeiro no mapa para definir a posição, depois preencha este
+            formulário.</div>
+        </div>
+
+      </div>
+
+      <div class="mbox-footer">
+        <button class="mbtn" id="modal-save"><i class="fa fa-check"></i> Salvar</button>
+        <button class="mcbtn" id="modal-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL: ENLACE ══ -->
+  <div class="modal" id="modal-link">
+    <div class="mbox" style="width:400px">
+      <div class="mbox-hdr">
+        <h2><i class="fa fa-project-diagram"></i> Criar Enlace</h2>
+      </div>
+      <div style="padding:14px 20px;">
+        <div class="frow-2">
+          <div class="frow"><label>Origem</label><input type="text" id="fl-orig" readonly style="color:#3fb950" /></div>
+          <div class="frow"><label>Destino</label><input type="text" id="fl-dest" readonly style="color:#58a6ff" />
+          </div>
+        </div>
+        <div class="frow-2">
+          <div class="frow"><label>Distância estimada</label><input type="text" id="fl-dist" readonly /></div>
+          <div class="frow">
+            <label>Capacidade</label>
+            <select id="fl-cap">
+              <option>100M</option>
+              <option>1G</option>
+              <option selected>10G</option>
+              <option>100G</option>
+            </select>
+          </div>
+        </div>
+        <div class="frow">
+          <label>Descrição / VLAN</label>
+          <input type="text" id="fl-vlan" placeholder="Ex: VLAN 100, Circuito #A1..." />
+        </div>
+        <div class="frow">
+          <label>Observações</label>
+          <textarea id="fl-notes" style="height:60px"
+            placeholder="Tipo de fibra, histórico de rompimentos..."></textarea>
+        </div>
+      </div>
+      <div class="mbox-footer">
+        <button class="mbtn" id="fl-save"><i class="fa fa-check"></i> Criar Enlace</button>
+        <button class="mcbtn" id="fl-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONFIG ══ -->
+  <script>
+    // Em produção: troque pelo IP do servidor
+    // window.NOC_API_BASE = 'http://192.168.1.50:8000';
+    window.NOC_API_BASE = 'http://localhost:8000';
+  </script>
+
+  <!-- auth.js primeiro — verifica sessão antes de carregar o resto -->
+  <script src="js/auth.js"></script>
+  <script> auth.exigirLogin(); </script>
+
+  <!-- ══ LIBS ══ -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- ══ APP ══ -->
+  <script src="js/api.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/nodes.js"></script>
+  <script src="js/links.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/monitoring.js"></script>
+  <script src="js/modals.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>

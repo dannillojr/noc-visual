@@ -1,0 +1,350 @@
+/* ── MODAL BASE ── */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000c;
+    z-index: 3000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.open {
+    display: flex;
+}
+
+.mbox {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 14px;
+    padding: 0;
+    width: 480px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.mbox-hdr {
+    padding: 16px 20px 0;
+    border-bottom: 1px solid #30363d;
+}
+
+.mbox-hdr h2 {
+    font-size: 15px;
+    color: #58a6ff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 12px;
+}
+
+/* Tabs */
+.tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid #30363d;
+    padding: 0 20px;
+    background: #161b22;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: #8b949e;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    border-bottom: 2px solid transparent;
+    transition: .2s;
+    font-family: inherit;
+}
+
+.tab-btn:hover {
+    color: #e6edf3;
+}
+
+.tab-btn.active {
+    color: #58a6ff;
+    border-bottom-color: #58a6ff;
+}
+
+.tab-pane {
+    display: none;
+    padding: 14px 20px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.mbox-footer {
+    padding: 12px 20px;
+    border-top: 1px solid #30363d;
+    display: flex;
+    gap: 8px;
+    background: #161b22;
+}
+
+/* Form elements */
+.frow {
+    margin-bottom: 10px;
+}
+
+.frow label {
+    display: block;
+    font-size: 10px;
+    color: #8b949e;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-weight: 600;
+}
+
+.frow input,
+.frow select,
+.frow textarea {
+    width: 100%;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 6px;
+    padding: 7px 9px;
+    font-size: 12px;
+    font-family: inherit;
+    transition: .15s;
+}
+
+.frow input:focus,
+.frow select:focus,
+.frow textarea:focus {
+    outline: none;
+    border-color: #58a6ff;
+}
+
+.frow textarea {
+    resize: vertical;
+    height: 52px;
+}
+
+.frow-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.frow-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.field-hint {
+    font-size: 10px;
+    color: #484f58;
+    margin-top: 3px;
+}
+
+/* Port table */
+.port-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.port-table th {
+    background: #21262d;
+    color: #8b949e;
+    text-transform: uppercase;
+    font-size: 9px;
+    padding: 5px 8px;
+    text-align: left;
+    border: 1px solid #30363d;
+}
+
+.port-table td {
+    padding: 4px 6px;
+    border: 1px solid #21262d;
+    vertical-align: middle;
+}
+
+.port-table tr:hover td {
+    background: #1c2433;
+}
+
+.port-table input {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 4px;
+    padding: 3px 6px;
+    font-size: 11px;
+    width: 100%;
+}
+
+.port-table input:focus {
+    outline: none;
+    border-color: #58a6ff;
+}
+
+.port-table select {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 4px;
+    padding: 3px 5px;
+    font-size: 11px;
+    width: 100%;
+}
+
+.port-toggle {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+    accent-color: #58a6ff;
+}
+
+.add-port-btn {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #58a6ff;
+    border-radius: 6px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: .2s;
+    font-family: inherit;
+}
+
+.add-port-btn:hover {
+    background: #1c2433;
+}
+
+.del-port {
+    color: #484f58;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+.del-port:hover {
+    color: #f85149;
+}
+
+/* Mon type chips */
+.mon-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.mon-chip {
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    cursor: pointer;
+    transition: .2s;
+    user-select: none;
+}
+
+.mon-chip:hover {
+    border-color: #58a6ff;
+}
+
+.mon-chip.selected {
+    background: #1c2433;
+    border-color: #58a6ff;
+    color: #58a6ff;
+}
+
+.mon-chip.selected.icmp {
+    border-color: #3fb950;
+    color: #3fb950;
+    background: #122117;
+}
+
+.mon-chip.selected.snmp {
+    border-color: #d29922;
+    color: #d29922;
+    background: #2d1e00;
+}
+
+.mon-chip.selected.api {
+    border-color: #f0883e;
+    color: #f0883e;
+    background: #2d1700;
+}
+
+.mon-chip.selected.http {
+    border-color: #bc8cff;
+    color: #bc8cff;
+    background: #1e1230;
+}
+
+.mon-chip.selected.optical {
+    border-color: #58a6ff;
+    color: #58a6ff;
+    background: #1c2433;
+}
+
+/* Section header inside tab */
+.sec-hdr {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: #8b949e;
+    padding: 8px 0 6px;
+    border-bottom: 1px solid #21262d;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sec-hdr i {
+    color: #58a6ff;
+}
+
+/* Modal buttons */
+.mbtn {
+    background: #1f6feb;
+    border: none;
+    color: #fff;
+    border-radius: 7px;
+    padding: 9px 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    flex: 1;
+    transition: .2s;
+    font-family: inherit;
+}
+
+.mbtn:hover {
+    background: #388bfd;
+}
+
+.mcbtn {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 7px;
+    padding: 9px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: .2s;
+    font-family: inherit;
+}
+
+.mcbtn:hover {
+    background: #30363d;
+}

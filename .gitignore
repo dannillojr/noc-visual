@@ -1,0 +1,23 @@
+# ─── Python ───────────────────────────────────────
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ─── Variáveis de ambiente — NUNCA commitar ───────
+.env
+
+# ─── Logs ─────────────────────────────────────────
+*.log
+
+# ─── Banco local ──────────────────────────────────
+*.db
+*.sqlite3
+
+# ─── VS Code ──────────────────────────────────────
+.vscode/
+
+# ─── Windows ──────────────────────────────────────
+Thumbs.db
+desktop.ini

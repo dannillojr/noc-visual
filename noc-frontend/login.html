@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>NOC Visual — Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+
+<body>
+
+  <div class="login-box">
+
+    <div class="login-logo">
+      <i class="fa fa-network-wired"></i> NOC Visual
+    </div>
+    <div class="login-sub">Sistema de Monitoramento de Rede</div>
+
+    <!-- Mensagem de erro exibida quando login falha -->
+    <div class="erro-msg" id="erro-msg">
+      <i class="fa fa-exclamation-circle"></i> <span id="erro-texto"></span>
+    </div>
+
+    <div class="frow">
+      <label><i class="fa fa-user"></i> Login</label>
+      <input type="text" id="campo-login" placeholder="seu.login" autocomplete="username" />
+    </div>
+
+    <div class="frow">
+      <label><i class="fa fa-lock"></i> Senha</label>
+      <input type="password" id="campo-senha" placeholder="••••••••" autocomplete="current-password" />
+    </div>
+
+    <button class="btn-login" id="btn-login">
+      <i class="fa fa-sign-in-alt"></i> Entrar
+    </button>
+
+    <div class="login-footer">
+      NOC Visual &copy; 2026 — Uso interno
+    </div>
+
+  </div>
+
+  <!-- Config da API -->
+  <script>
+    window.NOC_API_BASE = 'http://localhost:8000';
+  </script>
+
+  <!-- auth.js primeiro — login.js depende dele -->
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+
+</body>
+</html>
